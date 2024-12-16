@@ -314,5 +314,31 @@ In the data pipeline folder, create a new pipeline to ingest constructors data:
 ![Power BI report ](Images/PowerBi/report_6.png)
 
 
-5. Add pipeline trigger:
+5. Add final pipeline:
+
+5.1 Connect ingestion pipelines with transformation dataflows:
+
+- Create a new pipeline then add "Invoke Pipeline" activity to the canva:
+
+![Final Pipeline ](Images/FinalPipeline/final_pl_1.png)
+![Final Pipeline ](Images/FinalPipeline/final_pl_2.png)
+
+- Add "Dataflow" activity to pipeline canva:
+
+![Final Pipeline ](Images/FinalPipeline/final_pl_3.png)
+![Final Pipeline ](Images/FinalPipeline/final_pl_4.png)
+
+- Repeat the above steps for other ingestion and transformation pipelines:
+
+
+- For laptime transformation, we have created a procedure before. So we connect the ingestion pipeline to a procedure instead of Dataflow:
+
+
+![Final Pipeline ](Images/FinalPipeline/final_pl_5.png)
+![Final Pipeline ](Images/FinalPipeline/final_pl_6.png)
+
+
+- Presentation Race Results Pipeline: create a new dataflow activity and connect with other activities:
+
+![Final Pipeline ](Images/FinalPipeline/final_pl_7.png)
 
