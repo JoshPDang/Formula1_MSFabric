@@ -1,32 +1,98 @@
-# data_engineering_with_MSFabric
-Setup Workspace
+# 1.Overview
+
+In this project, I will develop an end-to-end analytic dashboard using the Formula 1 dataset, leveraging Microsoft Fabric to manage and process data efficiently. The solution will incorporate key components of Microsoft Fabric, including Lakehouse, Warehouse, Data Pipeline, Dataflow and PowerBI, to facilitate a seamless data engineering and analytics workflow.
+
+The project will follow the Medallion Architecture, which organizes data into three distinct layers:
+
+- Bronze Layer: Raw, unprocessed data will be ingested and stored in the Lakehouse. This layer serves as the single source of truth for all raw data collected.
+- Silver Layer: The data will undergo cleaning, transformation, and validation to produce refined datasets. These intermediate datasets will be stored in the Data Warehouse for further processing and analysis.
+- Gold Layer: Aggregated and enriched datasets, optimized for reporting and analytics, will also be stored in the Data Warehouse. This layer serves as the foundation for the final analytical outputs and visualizations.
+
+By implementing this architecture, I aim to ensure data quality, scalability, and performance while creating an interactive analytic dashboard to uncover insights from the Formula 1 dataset. The dashboard will provide meaningful visualizations, enabling users to explore trends, patterns, and key metrics in Formula 1 racing.
+
+- Project Architecture:
+
+![Project Architecture](Images/Overview/Overview.png)
+
+- Dashboard Example:
+
+![Dashboard](Images/PowerBi/report_6.png)
+
+
+# 2.Dataset:
+
+The dataset used in this project is related to **Formula 1** and has been sourced from [Kaggle](https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2020). This dataset is a compilation of historical Formula 1 data, originally obtained from the **[Ergast API](http://ergast.com/mrd/)**, a well-known resource for accessing Formula 1 race results, driver standings, lap times, and other relevant racing statistics.
+
+The original dataset consists of **14 CSV files**, each representing different entities and aspects of Formula 1 racing (e.g., races, results, drivers, constructors, circuits, and lap times). However, to **demonstrate versatility in data ingestion methods** and showcase the handling of **different file formats**, I have converted some of the original CSV files into **JSON format**. This allows me to highlight multiple ingestion techniques while working with diverse file types, ensuring the project aligns with real-world data engineering scenarios.
+
+By introducing a mix of **CSV and JSON files**, the project demonstrates the capability to ingest, process, and transform heterogeneous data formats seamlessly using modern tools and architectures.
+
+
+```
+.
+└── Data/
+    ├── lap_times/
+    │   ├── lap_times_1.csv
+    │   ├── lap_times_2.csv
+    │   ├── lap_times_3.csv
+    │   ├── lap_times_4.csv
+    │   ├── lap_times_5.csv
+    │   ├── lap_times_6.csv
+    │   ├── lap_times_7.csv
+    │   ├── lap_times_8.csv
+    │   ├── lap_times_9.csv
+    │   ├── lap_times_10.csv
+    │   ├── lap_times_11.csv
+    │   └── lap_times_12.csv
+    ├── qualifying/
+    │   ├── qualifying_1.json
+    │   └── qualifying_2.json
+    ├── circuits.csv
+    ├── constructor_results.csv
+    ├── constructor_standings.csv
+    ├── constructors.json
+    ├── driver_standings.csv
+    ├── drivers.json
+    ├── pit_stops.json
+    ├── results.json
+    ├── status.csv
+    ├── races.csv
+    ├── seasons.csv
+    └── sprint_results.csv
+```
+
+# 3. Implementation:
+
+## 3.1 Setup
+
+- Create a new workspace:
 
 ![Setup workspace](Images/Setup/setup_workspace.png)
 
-In the newly generated Workspace, create a new lakehouse to ingest raw data:
+- In the newly generated Workspace, create a new data lakehouse and a data warehouse.
 
 ![Create lakehouse](Images/Setup/setup_lakehouse_1.png)
 ![Create lakehouse](Images/Setup/setup_lakehouse_2.png)
 
 
-1. Data Ingestion:
-In the lakehouse, create subfolders with the hierachy as below:
+## 3.2 Data Ingestion:
+- In the lakehouse, create subfolders with the hierachy as below:
 
 ![Create subfolders](Images/DataIngestion/create_subfolders.png)
 
-Upload raw data into each sub-folders:
+- Upload raw data into each sub-folders:
 
 ![Upload raw data](Images/DataIngestion/upload_raw_data.png)
 
-Create a new data warehouse to store ingested data:
+- Create a new data warehouse to store ingested data:
 
 ![Create data warehouse](Images/DataIngestion/create_data_warehouse.png)
 
-In workspace, create a new folder to store data pipelines:
+- In workspace, create a new folder to store data pipelines:
 
 ![Create new folder for data pipelines](Images/DataIngestion/create_folder_for_pipelines.png)
 
-1.1 Ingest circuits data:
+### 3.2.1 Ingest circuits data:
 
 - In the pipeline folder, create a new pipeline to ingest circuits data:
 
@@ -73,7 +139,7 @@ In workspace, create a new folder to store data pipelines:
 ![Ingest circuits](Images/DataIngestion/circuits/ingest_circuits_11.png)
 
 
-1.2 Ingest Constructors data:
+### 3.2.2 Ingest Constructors data:
 In the data pipeline folder, create a new pipeline to ingest constructors data:
 
 ![Ingest constructors pipeline](Images/DataIngestion/constructors/ingest_constructors_1.png)
@@ -88,13 +154,13 @@ In the data pipeline folder, create a new pipeline to ingest constructors data:
 
 ![Ingest constructors pipeline](Images/DataIngestion/constructors/ingest_constructors_5.png)
 
-1.3 Ingest rivers, pit stops, results and status data:
+### 3.2.3 Ingest rivers, pit stops, results and status data:
 
 - Repeat these above to ingest drivers, pit stops and results data into data lakehouse.
 
 ![Ingest drivers, pitstops, results](Images/DataIngestion/drivers_pitstop_result/ingest_drivers_pitstops_results.png)
 
-1.4 Ingest races data:
+### 3.2.4 Ingest races data:
 
 - To ingest races data, let's try another method. First, create a new notebook or use the notebook available in this repo:
 
@@ -120,11 +186,11 @@ In the data pipeline folder, create a new pipeline to ingest constructors data:
 
 ![Ingest qualifying](Images/DataIngestion/qualifying/ingest_qualifying.png)
 
-2. Process Data:
+## 3.3 Data Transformation:
 
+### 3.3.1 Process circuits data:
 
-2.1:
-- Circuits data: create a new Dataflow Gen2
+- Create a new Dataflow Gen2
 
 ![Processed Circuits ](Images/ProcessedData/circuits/process_circuits_1.png)
 
@@ -170,7 +236,7 @@ In the data pipeline folder, create a new pipeline to ingest constructors data:
 
 ![Processed Circuits ](Images/ProcessedData/circuits/process_circuits_14.png)
 
-2.2: Process races data:
+### 3.3.2 Transform races data:
 
 - Repeat the same steps to process races data. The transformation is pretty the same which is to rename some columns and remove unecessary ones.
 
@@ -183,13 +249,14 @@ In the data pipeline folder, create a new pipeline to ingest constructors data:
 
 ![Processed Races ](Images/ProcessedData/races/process_races_2.png)
 
-2.3: Process constructors data:
+### 3.3.3: Transform constructors data:
 
 - Rename column headers
 
 ![Processed Constructors ](Images/ProcessedData/constructors/process_constructors_1.png)
 
-2.4: Process drivers data:
+### 3.3.4: Transform drivers data:
+
 - Besides changing column names, we need to join forename and surename of drivers into a new column called name. In the Add Column tab, select Custom Column:
 
 ![Processed Drivers ](Images/ProcessedData/drivers/process_drivers_1.png)
@@ -200,7 +267,7 @@ In the data pipeline folder, create a new pipeline to ingest constructors data:
 ![Processed Drivers ](Images/ProcessedData/drivers/process_drivers_3.png)
 
 
-2.5: Process lap times data:
+### 3.3.5: Transform lap times data:
 
 - With lap times, I'll try another method which is using SQL query. In data warehouse, create a new SQL query:
 
@@ -210,7 +277,7 @@ In the data pipeline folder, create a new pipeline to ingest constructors data:
 
 ![Processed Lap Times ](Images/ProcessedData/lap_times/process_lap_times_2.png)
 
-2.6: Process results data:
+### 3.3.6: Transform results data:
 - Remove duplicate values in both result_id and race_id
 
 ![Processed Results ](Images/ProcessedData/results/process_results_1.png)
@@ -219,17 +286,17 @@ In the data pipeline folder, create a new pipeline to ingest constructors data:
 
 ![Processed Results ](Images/ProcessedData/results/process_results_2.png)
 
-2.7: Process pit stops data:
+### 3.3.7: Transform pit stops data:
 
 ![Processed pit stops ](Images/ProcessedData/pit_stops/process_pit_stops_1.png)
 
-2.8 Process status data:
+### 3.3.8: Transform status data:
 
 ![Processed status ](Images/ProcessedData/status/process_status.png)
 
 
-3. Presentation:
-3.1 Race result summary table:
+## 3.4 Data Presentation:
+### 3.1 Race result summary table:
 
 - In workspace, create a new dataflows, then name it df_pres_race_results:
 
@@ -281,7 +348,7 @@ In the data pipeline folder, create a new pipeline to ingest constructors data:
 ![Presentation Race Results ](Images/Presentation/race_results/pres_race_results_13.png)
 ![Presentation Race Results ](Images/Presentation/race_results/pres_race_results_14.png)
 
-3.2 Race count measure table:
+### 3.2 Race count measure table:
 
 - In this step, I'll try to create a mesaure table using SQL. In data warehouse, create a new SQL query:
 
@@ -291,7 +358,7 @@ In the data pipeline folder, create a new pipeline to ingest constructors data:
 
 ![Presentation Race Results ](Images/Presentation/race_results/pres_race_results_16.png)
 
-4. Power Bi Report:
+## 4. Power Bi Report:
 
 - In the data warehouse, click on tab Reporting then create a New report:
 
@@ -314,7 +381,7 @@ In the data pipeline folder, create a new pipeline to ingest constructors data:
 ![Power BI report ](Images/PowerBi/report_6.png)
 
 
-5. Add final pipeline:
+## 5. Add final pipeline:
 
 5.1 Connect ingestion pipelines with transformation dataflows:
 
