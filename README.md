@@ -12,7 +12,7 @@ By implementing this architecture, I aim to ensure data quality, scalability, an
 
 - Project Architecture:
 
-![Project Architecture](Images/Overview/Overview.png)
+![Project Architecture](Images/Formula1.png)
 
 - Dashboard Example:
 
